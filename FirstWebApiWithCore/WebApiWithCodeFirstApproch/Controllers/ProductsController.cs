@@ -41,12 +41,25 @@ namespace WebApiWithCodeFirstApproch.Controllers
         }
 
         [HttpGet("Paging")]
-        public IEnumerable<Products> Get(int ? pageNumber,int ? pageSize) //https://localhost:44325/api/Products?sorting=desc
+        public IEnumerable<Products> Get(int ? pageNumber,int ? pageSize) 
         {
             int currentpage= pageNumber ?? 1;
-            int PageSize = pageSize ?? 2;
+            int PageSize = pageSize ?? 5;
             var product = from p in productsDBContext.Products.OrderBy(p => p.productID) select p;
            return product.Skip((currentpage - 1) * PageSize).Take(PageSize).ToList();
+        }
+
+        [HttpGet("Search")]
+        public IEnumerable<Products> GetSearch(string keyword)
+        {
+          
+            if(string.IsNullOrEmpty(keyword))
+            {
+                var product = productsDBContext.Products;
+                return product;
+            }
+            var SearchResult = productsDBContext.Products.Where(p => p.productName.StartsWith(keyword));
+            return SearchResult;
         }
 
 
