@@ -21,7 +21,7 @@ namespace WebApiWithCodeFirstApproch.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<Products> Get(string sorting)
+        public IEnumerable<Products> Get(string sorting) //https://localhost:44325/api/Products?sorting=desc
         {
             IQueryable<Products> products;
             switch (sorting)
@@ -39,6 +39,16 @@ namespace WebApiWithCodeFirstApproch.Controllers
             }
             return products;
         }
+
+        [HttpGet("Paging")]
+        public IEnumerable<Products> Get(int ? pageNumber,int ? pageSize) //https://localhost:44325/api/Products?sorting=desc
+        {
+            int currentpage= pageNumber ?? 1;
+            int PageSize = pageSize ?? 2;
+            var product = from p in productsDBContext.Products.OrderBy(p => p.productID) select p;
+           return product.Skip((currentpage - 1) * PageSize).Take(PageSize).ToList();
+        }
+
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
