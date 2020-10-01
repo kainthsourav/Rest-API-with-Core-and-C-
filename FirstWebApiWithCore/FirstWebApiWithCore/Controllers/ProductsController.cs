@@ -15,7 +15,7 @@ namespace FirstWebApiWithCore.Controllers
        };
 
         [HttpGet]
-        public IEnumerable<Products> Get() => _products;
+        public IActionResult Get() => Ok(_products);
 
 
         [HttpPost]
