@@ -21,9 +21,23 @@ namespace WebApiWithCodeFirstApproch.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<Products> Get()
+        public IEnumerable<Products> Get(string sorting)
         {
-            return productsDBContext.Products;
+            IQueryable<Products> products;
+            switch (sorting)
+            {
+                case "desc":
+                    products = productsDBContext.Products.OrderByDescending(p=>p.productPrice);
+                    break;
+                case "asce":
+                    products = productsDBContext.Products.OrderBy(p => p.productPrice);
+                    break;
+                default:
+                    products = productsDBContext.Products;
+                    break;
+
+            }
+            return products;
         }
 
         // GET api/<ProductsController>/5
