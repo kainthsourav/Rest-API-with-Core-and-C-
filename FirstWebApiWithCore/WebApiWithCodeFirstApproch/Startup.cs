@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebApiWithCodeFirstApproch.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApiWithCodeFirstApproch
 {
@@ -26,10 +28,11 @@ namespace WebApiWithCodeFirstApproch
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<ProductsDBContext>(option => option.UseSqlServer("Data Source=DESKTOP-19MSM16\\SQLEXPRESS;Initial Catalog=ProductsDB;Integrated Security = True"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ProductsDBContext productsDBContext)
         {
             if (env.IsDevelopment())
             {
@@ -46,6 +49,7 @@ namespace WebApiWithCodeFirstApproch
             {
                 endpoints.MapControllers();
             });
+            productsDBContext.Database.EnsureCreated();
         }
     }
 }

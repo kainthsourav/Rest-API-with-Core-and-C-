@@ -1,50 +1,54 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApiWithCodeFirstApproch.Data;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApiWithCodeFirstApproch.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductsController : ControllerBase
     {
-        static List<Products> _products = new List<Products>()
-       {
-           new Products(){productID=10,productName="Laptop",productPrice="20000"},
-           new Products(){productID=20,productName="Phone",productPrice="1500"}
-       };
+        private ProductsDBContext productsDBContext;
+        public ProductsController(ProductsDBContext ProductsDBContext)
+        {
+            productsDBContext = ProductsDBContext;
+        }
 
+        // GET: api/<ProductsController>
         [HttpGet]
-        public IActionResult Get() //by default it has httpget verb as Getis used  
+        public IEnumerable<Products> Get()
         {
-            return Ok(_products);
+            return productsDBContext.Products;
         }
 
-        [HttpGet("Welcome")] // this method will be accessed by Welcome as defined
-        public IActionResult GetWelcome()
+        // GET api/<ProductsController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
-            return Ok("welocme to Project");
+            return "value";
         }
+
+        // POST api/<ProductsController>
         [HttpPost]
-        public IActionResult Post([FromBody] Products products)
+        public void Post([FromBody] string value)
         {
-            _products.Add(products);
-            return StatusCode(201); //created 201 code
-
         }
 
-        [HttpPut("{productID}")]
-        public IActionResult Put(int productID, [FromBody] Products products)
+        // PUT api/<ProductsController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            _products[productID] = products;
-            return StatusCode(200);
         }
 
-        [HttpDelete("{productID}")]
-        public IActionResult Delete(int productID)
+        // DELETE api/<ProductsController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            _products.RemoveAt(productID);
-            return StatusCode(200);
         }
-
     }
 }
