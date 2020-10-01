@@ -15,12 +15,16 @@ namespace FirstWebApiWithCore.Controllers
        };
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get() //by default it has httpget verb as Getis used  
         {
             return Ok(_products);
         }
 
-
+        [HttpGet("Welcome")] // this method will be accessed by Welcome as defined
+        public IActionResult GetWelcome()
+        {
+            return Ok("welocme to Project");
+        }
         [HttpPost]
         public IActionResult Post([FromBody] Products products)
         {
