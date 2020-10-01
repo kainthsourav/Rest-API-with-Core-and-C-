@@ -15,17 +15,33 @@ namespace FirstWebApiWithCore.Controllers
        };
 
         [HttpGet]
-        public IActionResult Get() => Ok(_products);
+        public IActionResult Get()
+        {
+            return Ok(_products);
+        }
 
 
         [HttpPost]
-        public void Post([FromBody] Products products) => _products.Add(products);
+        public IActionResult Post([FromBody] Products products)
+        {
+            _products.Add(products);
+            return StatusCode(201); //created 201 code
+
+        }
 
         [HttpPut("{productID}")]
-        public void Put(int productID, [FromBody] Products products) => _products[productID] = products;
+        public IActionResult Put(int productID, [FromBody] Products products)
+        {
+            _products[productID] = products;
+            return StatusCode(200);
+        }
 
         [HttpDelete("{productID}")]
-        public void Delete(int productID) => _products.RemoveAt(productID);
+        public IActionResult Delete(int productID)
+        {
+            _products.RemoveAt(productID);
+            return StatusCode(200);
+        }
    
    }
 }
