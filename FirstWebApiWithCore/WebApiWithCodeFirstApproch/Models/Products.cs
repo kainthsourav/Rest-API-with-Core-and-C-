@@ -7,7 +7,9 @@ namespace WebApiWithCodeFirstApproch
     {
         [Key]
         public int productID { get; set; }
+        [Required,MaxLength(15)]
         public string productName { get; set; }
+        [Required]
         public string productPrice { get; set; }
     }
 }

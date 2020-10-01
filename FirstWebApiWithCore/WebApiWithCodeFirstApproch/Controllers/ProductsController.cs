@@ -28,27 +28,60 @@ namespace WebApiWithCodeFirstApproch.Controllers
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var product=productsDBContext.Products.SingleOrDefault(m => m.productID == id);
+            if(product==null)
+            {
+                return NotFound("Not Records Exists");
+            }
+
+            return Ok(product);
         }
 
         // POST api/<ProductsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Products products)
         {
+            if (ModelState.IsValid)
+            {
+                productsDBContext.Products.Add(products);
+                productsDBContext.SaveChanges(true);
+                return Ok("Records added");
+            }
+            return BadRequest(ModelState);
+           
         }
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Products products)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if(id!=products.productID)
+            {
+                return BadRequest();
+            }
+            productsDBContext.Products.Update(products);
+            productsDBContext.SaveChanges(true);
+            return Ok("Updated");
         }
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var product=productsDBContext.Products.SingleOrDefault(m => m.productID == id);
+            if(product==null)
+            {
+                return NotFound("Cannot Delete : Record does not exist");
+            }
+            productsDBContext.Products.Remove(product);
+            productsDBContext.SaveChanges(true);
+            return Ok("Deleted");
         }
     }
 }
