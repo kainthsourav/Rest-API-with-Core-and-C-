@@ -19,6 +19,7 @@ namespace WebApiWithCodeFirstApproch.Controllers
             productsDBContext = ProductsDBContext;
         }
 
+        [HttpGet]
         public IEnumerable<Products> Get()
         {
             return productsDBContext.Products;

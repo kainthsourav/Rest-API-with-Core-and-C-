@@ -10,9 +10,10 @@ using WebApiWithCodeFirstApproch.Models;
 namespace WebApiWithCodeFirstApproch.Controllers
 {
     [ApiVersion("2.0")]
-  // [Route("api/movie")]  // https://localhost:44325/api/movie?api-version=2.0 --Versioning Via Query String
-  //  [Route("api/v{version:apiVersion}/movie")]     // Versioning via Url Path https://localhost:44325/api/v2/Movie
-    [Route("api/movie")] // Media Type Versioning
+    // [Route("api/movie")]  // https://localhost:44325/api/movie?api-version=2.0 --Versioning Via Query String
+    //  [Route("api/v{version:apiVersion}/movie")]     // Versioning via Url Path https://localhost:44325/api/v2/Movie
+    // [Route("api/movie")] // Media Type Versioning
+    [Route("api/[controller]")]
     [ApiController]
     public class MovieV2Controller : ControllerBase
     {
