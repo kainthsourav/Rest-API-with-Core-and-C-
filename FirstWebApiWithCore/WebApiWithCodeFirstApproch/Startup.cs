@@ -14,6 +14,7 @@ using WebApiWithCodeFirstApproch.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using WebApiWithCodeFirstApproch.Services;
 
 namespace WebApiWithCodeFirstApproch
 {
@@ -36,6 +37,9 @@ namespace WebApiWithCodeFirstApproch
             services.AddApiVersioning(Options => Options.AssumeDefaultVersionWhenUnspecified = true);
             //Versioning via Media Type --in Headers sending information about version
             services.AddApiVersioning(o => o.ApiVersionReader = new MediaTypeApiVersionReader());
+
+            //Reposit Pattern
+            services.AddScoped<IProducts, ProductsRespository>();
 
         }
 

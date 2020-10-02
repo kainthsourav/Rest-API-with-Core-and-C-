@@ -14,29 +14,35 @@ namespace WebApiWithCodeFirstApproch.Services
         {
             _productsDBContext = productsDBContext;
         }
+
         public void AddProduct(Products products)
         {
-            throw new NotImplementedException();
+            _productsDBContext.Products.Add(products);
+            _productsDBContext.SaveChanges(true);
         }
 
         public void DeleteProducts(int id)
         {
-            throw new NotImplementedException();
+             var product= _productsDBContext.Products.Find(id);
+            _productsDBContext.Products.Remove(product);
+            _productsDBContext.SaveChanges(true);
+            
         }
 
         public IEnumerable<Products> GetProducts()
         {
-            throw new NotImplementedException();
+            return _productsDBContext.Products;
         }
 
         public Products GetProducts(int id)
         {
-            throw new NotImplementedException();
+            return _productsDBContext.Products.SingleOrDefault(m => m.productID == id);
         }
 
         public void UpdateProduct(Products products)
         {
-            throw new NotImplementedException();
+            _productsDBContext.Products.Update(products);
+            _productsDBContext.SaveChanges(true);
         }
     }
 }
