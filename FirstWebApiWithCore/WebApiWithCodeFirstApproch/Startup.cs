@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using WebApiWithCodeFirstApproch.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace WebApiWithCodeFirstApproch
 {
@@ -32,7 +33,9 @@ namespace WebApiWithCodeFirstApproch
             services.AddDbContext<ProductsDBContext>(option => option.UseSqlServer("Data Source=DESKTOP-19MSM16\\SQLEXPRESS;Initial Catalog=ProductsDB;Integrated Security = True"));
 
             //versioning
-            services.AddApiVersioning(Options=>Options.AssumeDefaultVersionWhenUnspecified=true);
+            services.AddApiVersioning(Options => Options.AssumeDefaultVersionWhenUnspecified = true);
+            //Versioning via Media Type --in Headers sending information about version
+            services.AddApiVersioning(o => o.ApiVersionReader = new MediaTypeApiVersionReader());
 
         }
 
