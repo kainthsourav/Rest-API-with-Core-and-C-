@@ -19,8 +19,12 @@ namespace WebApiWithCodeFirstApproch.Controllers
             productsDBContext = ProductsDBContext;
         }
 
+        public IEnumerable<Products> Get()
+        {
+            return productsDBContext.Products;
+        }
         // GET: api/<ProductsController>
-        [HttpGet]
+        [HttpGet("Sorting")]
         public IEnumerable<Products> Get(string sorting) //https://localhost:44325/api/Products?sorting=desc
         {
             IQueryable<Products> products;

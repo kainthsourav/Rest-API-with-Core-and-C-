@@ -1,0 +1,5 @@
+﻿1.Create Interface and add CRUD methods
+2.Add a Respostiory Class and implements interface
+3.DbContext depedent code to Respostiory Class
+4.In controller call the CRUD methods with the interface
+5.Register interface and Respostiory Class in Startup.cs
