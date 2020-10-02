@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using WebApiWithCodeFirstApproch.Services;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.Swagger;
+
 
 namespace WebApiWithCodeFirstApproch
 {
@@ -41,6 +44,13 @@ namespace WebApiWithCodeFirstApproch
             //Reposit Pattern
             services.AddScoped<IProducts, ProductsRespository>();
 
+            //API documentation
+        // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger Documentation", Version = "Version 1.0" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +72,8 @@ namespace WebApiWithCodeFirstApproch
                 endpoints.MapControllers();
             });
             productsDBContext.Database.EnsureCreated();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api for Products"));
         }
     }
 }
