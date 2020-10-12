@@ -36,6 +36,9 @@ namespace WebApiWithCodeFirstApproch
             services.AddControllers();
             services.AddDbContext<ProductsDBContext>(option => option.UseSqlServer("Data Source=DESKTOP-19MSM16\\SQLEXPRESS;Initial Catalog=ProductsDB;Integrated Security = True"));
 
+            //Caching
+            services.AddResponseCaching();
+
             //versioning
             services.AddApiVersioning(Options => Options.AssumeDefaultVersionWhenUnspecified = true);
             //Versioning via Media Type --in Headers sending information about version
@@ -50,6 +53,9 @@ namespace WebApiWithCodeFirstApproch
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger Documentation", Version = "Version 1.0" });
             });
+            
+
+            
 
         }
 
@@ -71,9 +77,15 @@ namespace WebApiWithCodeFirstApproch
             {
                 endpoints.MapControllers();
             });
-            productsDBContext.Database.EnsureCreated();
+
+            //to use caching
+            app.UseResponseCaching();
+
+            //  productsDBContext.Database.EnsureCreated();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api for Products"));
+
+            
         }
     }
 }

@@ -20,6 +20,7 @@ namespace WebApiWithCodeFirstApproch.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 60,Location =ResponseCacheLocation.Client)]
         public IEnumerable<Products> Get()
         {
             return productsDBContext.Products;
