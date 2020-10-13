@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using WebApiWithCodeFirstApproch.Services;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.Swagger;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WebApiWithCodeFirstApproch
 {
@@ -53,9 +53,20 @@ namespace WebApiWithCodeFirstApproch
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger Documentation", Version = "Version 1.0" });
             });
-            
 
-            
+            services.AddMvc();
+
+            // 1. Add Authentication Services
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://productsapi.us.auth0.com/";
+                options.Audience = "https://localhost:44325/";
+            });
+
 
         }
 
@@ -80,6 +91,8 @@ namespace WebApiWithCodeFirstApproch
 
             //to use caching
             app.UseResponseCaching();
+
+
 
             //  productsDBContext.Database.EnsureCreated();
             app.UseSwagger();
